@@ -1,20 +1,22 @@
 import React from 'react';
-import { TextField, Button, Grid } from '@mui/material';
+import { TextField, Button, Grid, Slider, Typography } from '@mui/material';
 
 const ListingFilter = ({ filters, onFilterChange }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     if ((name === 'Bedrooms' || name === 'Bathrooms' || name === 'Parking') && value !== '' && value < 1) {
-      return;
-    }
-    
-    if ((name === 'MinPrice' || name === 'MaxPrice') && value < 0) {
       return;
     }
 
     onFilterChange({ ...filters, [name]: value });
   };
+
+  const handlePriceChange = (e, newValue) => {
+    onFilterChange({ ...filters, MinPrice: newValue[0], MaxPrice: newValue[1] });
+  };
+
+  const formatPrice = (value) => `$${value}`;
 
   const handleClearFilters = () => {
     onFilterChange({
@@ -61,32 +63,19 @@ const ListingFilter = ({ filters, onFilterChange }) => {
           inputProps={{ min: 1 }}
         />
       </Grid>
-      <Grid item xs={12} sm={2}>
-        <TextField
-          label="Min Price"
-          type="number"
-          name="MinPrice"
-          value={filters.MinPrice || ''}
-          onChange={handleChange}
-          fullWidth
-          inputProps={{ min: 0 }}
-        />
-      </Grid>
-      <Grid item xs={12} sm={2}>
-        <TextField
-          label="Max Price"
-          type="number"
-          name="MaxPrice"
-          value={filters.MaxPrice || ''}
-          onChange={handleChange}
-          fullWidth
-          inputProps={{ min: 0 }}
-        />
-      </Grid>
-      <Grid item xs={12} sm={2}>
-        <Button variant="contained" color="primary" fullWidth onClick={() => console.log('Filters applied!')}>
-          Apply Filters
-        </Button>
+      <Grid item xs={12} sm={6}>
+        <Typography gutterBottom>Price Range</Typography>
+        <Slider
+          value={[filters.MinPrice || 0, filters.MaxPrice || 1000000]} // Valores iniciais de Min e Max
+          onChange={handlePriceChange}
+          valueLabelDisplay="auto"
+          min={0}
+          max={1000000}
+          valueLabelFormat={formatPrice}
+        />        
+        <Typography variant="body2" color="text.secondary" style={{ marginTop: '10px' }}>
+          Selected Price Range: ${filters.MinPrice || 0} - ${filters.MaxPrice || 1000000}
+        </Typography>
       </Grid>
       <Grid item xs={12} sm={2}>
         <Button variant="outlined" color="secondary" fullWidth onClick={handleClearFilters}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Container, Card, CardContent, CardMedia, Typography, Button, Grid } from '@mui/material';
+import { Container, Typography, Button, Grid, Box, Card, CardMedia } from '@mui/material';
+import { format } from 'date-fns'; // Para formatar a data
 
 const ListingDetail = () => {
   const location = useLocation();
@@ -10,55 +11,81 @@ const ListingDetail = () => {
   if (!listing) return <Typography variant="h6">Listing not found</Typography>;
 
   const handleGoBack = () => {
-    navigate(-1); 
+    navigate(-1); // Volta para a página anterior
   };
+
+  // Formata a data para o formato "Feb 18, 2023"
+  const formattedDate = format(new Date(listing.DateListed), 'MMM dd, yyyy');
+
+  // Formatação do preço com separação de milhares
+  const formattedPrice = listing['Sale Price'].toLocaleString();
 
   return (
     <Container>
-      <Button variant="contained" onClick={handleGoBack} style={{ marginBottom: '20px', marginTop: '20px' }}>
+      <Button variant="contained" onClick={handleGoBack} style={{ marginBottom: '20px' }}>
         Back to Listings
       </Button>
-      <Card>
-        <Grid container>
-          <Grid item xs={12} md={6}>
-            <CardMedia
-              component="img"
-              height="100%"
-              image={listing.PictureURL}
-              alt={listing.Title}
-              style={{ objectFit: 'cover' }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <CardContent>
-              <Typography variant="h4" gutterBottom>
-                {listing.Title}
-              </Typography>
-              <Typography variant="body1" color="text.secondary" gutterBottom>
-                {listing.Description}
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                Location: {listing.Location}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Bedrooms: {listing.Bedrooms}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Bathrooms: {listing.Bathrooms}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Parking: {listing.Parking}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Year Built: {listing.YearBuilt}
-              </Typography>
-              <Typography variant="h5" gutterBottom style={{ marginTop: '20px' }}>
-                Price: ${listing['Sale Price']}
-              </Typography>
-            </CardContent>
-          </Grid>
+      
+      {/* Título e informações principais */}
+      <Grid container spacing={2} style={{ marginBottom: '20px' }}>
+        <Grid item xs={12} md={8}>
+          <Typography variant="h4">{listing.Title}</Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            {listing.Location}
+          </Typography>
         </Grid>
+        <Grid item xs={12} md={4} style={{ textAlign: 'right' }}>
+          <Typography variant="h5" style={{ fontWeight: 'bold', color: 'green' }}>
+            Price: ${formattedPrice}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            Date Listed: {formattedDate}
+          </Typography>
+        </Grid>
+      </Grid>
+
+      {/* Imagem */}
+      <Card>
+        <CardMedia
+          component="img"
+          height="400"
+          image={listing.PictureURL}
+          alt={listing.Title}
+          style={{ objectFit: 'cover' }}
+        />
       </Card>
+
+      {/* Quadro de informações principais */}
+      <Grid container spacing={2} style={{ marginTop: '20px', textAlign: 'center' }}>
+        <Grid item xs={6} sm={2}>
+          <Typography variant="h6">{listing.Bedrooms}</Typography>
+          <Typography variant="body2" color="textSecondary">Bedrooms</Typography>
+        </Grid>
+        <Grid item xs={6} sm={2}>
+          <Typography variant="h6">{listing.Bathrooms}</Typography>
+          <Typography variant="body2" color="textSecondary">Bathrooms</Typography>
+        </Grid>
+        <Grid item xs={6} sm={2}>
+          <Typography variant="h6">{listing.Parking}</Typography>
+          <Typography variant="body2" color="textSecondary">Parking</Typography>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Typography variant="h6">{listing.Sqft}</Typography>
+          <Typography variant="body2" color="textSecondary">Square Footage</Typography>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Typography variant="h6">{listing.YearBuilt}</Typography>
+          <Typography variant="body2" color="textSecondary">Year Built</Typography>
+        </Grid>
+      </Grid>
+
+      {/* Descrição */}
+      <Box mt={4}>
+        <Typography variant="h6">Description</Typography>
+        <Typography variant="body1" color="textSecondary" paragraph>
+          {listing.Description}
+        </Typography>
+      </Box>
     </Container>
   );
 };

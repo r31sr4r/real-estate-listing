@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardMedia, Typography, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { formatPrice } from '../../utils/formatters';
 
 const ListingItem = ({ listing }) => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const ListingItem = ({ listing }) => {
         alt={listing.Title}
         style={{ objectFit: 'cover' }}
       />
-      <CardContent style={{ flexGrow: 1 }}>        
+      <CardContent style={{ flexGrow: 1 }}>
         <Typography
           gutterBottom
           variant="h5"
@@ -40,10 +41,10 @@ const ListingItem = ({ listing }) => {
         <Typography variant="body2" color="text.secondary">
           Bathrooms: {listing.Bathrooms}
         </Typography>
-        
+
         <Box mt={2}>
           <Typography variant="h6" color="primary" style={{ fontWeight: 'bold' }}>
-            Price: ${listing['Sale Price']}
+            Price: {formatPrice(listing['Sale Price'])}
           </Typography>
         </Box>
       </CardContent>

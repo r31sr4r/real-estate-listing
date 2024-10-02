@@ -1,5 +1,6 @@
 import React from 'react';
 import { TextField, Button, Grid, Slider, Typography } from '@mui/material';
+import { formatPrice } from '../../utils/formatters';
 
 const ListingFilter = ({ filters, onFilterChange }) => {
   const handleChange = (e) => {
@@ -15,8 +16,6 @@ const ListingFilter = ({ filters, onFilterChange }) => {
   const handlePriceChange = (e, newValue) => {
     onFilterChange({ ...filters, MinPrice: newValue[0], MaxPrice: newValue[1] });
   };
-
-  const formatPrice = (value) => `$${value}`;
 
   const handleClearFilters = () => {
     onFilterChange({
@@ -72,9 +71,9 @@ const ListingFilter = ({ filters, onFilterChange }) => {
           min={0}
           max={1000000}
           valueLabelFormat={formatPrice}
-        />        
+        />
         <Typography variant="body2" color="text.secondary" style={{ marginTop: '10px' }}>
-          Selected Price Range: ${filters.MinPrice || 0} - ${filters.MaxPrice || 1000000}
+          Selected Price Range: {formatPrice(filters.MinPrice || 0)} - {formatPrice(filters.MaxPrice || 1000000)}
         </Typography>
       </Grid>
       <Grid item xs={12} sm={2}>

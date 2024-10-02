@@ -15,23 +15,20 @@ const ListingsPage = () => {
     MaxPrice: ''
   });
 
-  // Função para carregar as listagens da API
   useEffect(() => {
     const loadListings = async () => {
       const data = await fetchListings();
       setListings(data);
-      setFilteredListings(data); // Inicialmente, mostra todas as listagens
+      setFilteredListings(data);
     };
     loadListings();
   }, []);
-
-  // Função que será chamada quando os filtros forem alterados
+  
   const handleFilterChange = (updatedFilters) => {
-    setFilters(updatedFilters); // Atualiza os filtros no estado
-    applyFilters(updatedFilters); // Aplica os filtros para atualizar a listagem
+    setFilters(updatedFilters);
+    applyFilters(updatedFilters);
   };
 
-  // Função que aplica os filtros às listagens
   const applyFilters = (filters) => {
     let updatedListings = listings;
 
@@ -65,12 +62,12 @@ const ListingsPage = () => {
       );
     }
 
-    setFilteredListings(updatedListings); // Atualiza as listagens filtradas
+    setFilteredListings(updatedListings);
   };
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom style={{ marginTop: '20px' }}>
         Real Estate Listings
       </Typography>
       <ListingFilter filters={filters} onFilterChange={handleFilterChange} />

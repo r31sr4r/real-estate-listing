@@ -2,11 +2,9 @@ import { render, screen, act } from '@testing-library/react';
 import App from './App';
 import axios from 'axios';
 
-// Mock axios
 jest.mock('axios');
 
 test('renders Real Estate Listings heading', async () => {
-  // Simula a resposta do axios.get
   axios.get.mockResolvedValue({
     data: [
       {
@@ -22,12 +20,10 @@ test('renders Real Estate Listings heading', async () => {
     ],
   });
 
-  // Renderiza o componente
   await act(async () => {
     render(<App />);
   });
 
-  // Aguarda que o título "Real Estate Listings" apareça na tela
   const headingElement = await screen.findByText(/Real Estate Listings/i);
   expect(headingElement).toBeInTheDocument();
 });

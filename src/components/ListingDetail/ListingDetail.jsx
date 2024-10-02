@@ -24,7 +24,6 @@ const ListingDetail = () => {
 
     toggleSaveProperty(listing);
 
-    // Abre o modal apenas se a propriedade for adicionada, não removida
     if (!isAlreadySaved) {
       setModalOpen(true);
     }

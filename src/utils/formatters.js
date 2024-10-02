@@ -3,12 +3,10 @@ export const formatPrice = (price) => {
 };
 
 export const formatDate = (date) => {
-  // Garante que a data seja interpretada como UTC
   const utcDate = new Date(`${date}T00:00:00Z`);
 
-  // Formata a data no fuso horário UTC
   return utcDate.toLocaleDateString('en-US', {
-    timeZone: 'UTC', // Adiciona esta linha
+    timeZone: 'UTC',
     year: 'numeric',
     month: 'short',
     day: 'numeric',
